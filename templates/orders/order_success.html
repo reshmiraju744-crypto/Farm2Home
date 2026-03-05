@@ -1,0 +1,80 @@
+
+<style>
+
+    .success-wrapper{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        min-height:70vh;
+        background:#f4f6f9;
+        padding:20px;
+    }
+
+    .success-card{
+        background:white;
+        padding:40px;
+        border-radius:15px;
+        box-shadow:0 8px 25px rgba(0,0,0,0.08);
+        text-align:center;
+        width:400px;
+    }
+
+    .success-icon{
+        font-size:60px;
+        margin-bottom:15px;
+        color:#27ae60;
+    }
+
+    .success-title{
+        font-size:22px;
+        font-weight:600;
+        margin-bottom:10px;
+        color:#2c3e50;
+    }
+
+    .success-text{
+        font-size:14px;
+        color:gray;
+        margin-bottom:25px;
+    }
+
+    .view-btn{
+        display:inline-block;
+        padding:10px 20px;
+        background:#27ae60;
+        color:white;
+        text-decoration:none;
+        border-radius:8px;
+        transition:0.3s;
+        font-size:14px;
+    }
+
+    .view-btn:hover{
+        background:#219150;
+    }
+
+</style>
+
+<div class="success-wrapper">
+    <div class="success-card">
+
+        <div class="success-icon">
+            ✅
+        </div>
+
+        <div class="success-title">
+            Order Placed Successfully!
+        </div>
+
+        <div class="success-text">
+            Thank you for shopping with FarmToHome.
+            Your order is being processed.
+        </div>
+
+        <a href="{% url 'order_history' %}" class="view-btn">
+            📦 View My Orders
+        </a>
+
+    </div>
+</div>
+

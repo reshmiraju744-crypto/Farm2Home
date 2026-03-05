@@ -1,0 +1,159 @@
+
+<style>
+
+    .orders-wrapper{
+        padding:30px 5%;
+        background:#f5f7f9;
+        min-height:80vh;
+    }
+
+    .page-title{
+        margin-bottom:25px;
+        font-size:24px;
+        font-weight:600;
+        color:#2c3e50;
+    }
+
+    .order-card{
+        background:white;
+        padding:22px;
+        border-radius:12px;
+        box-shadow:0 6px 18px rgba(0,0,0,0.07);
+        margin-bottom:20px;
+        transition:0.3s ease;
+    }
+
+    .order-card:hover{
+        transform:translateY(-4px);
+    }
+
+    .order-top{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:12px;
+        border-bottom:1px solid #eee;
+        padding-bottom:8px;
+    }
+
+    .order-id{
+        font-weight:600;
+        font-size:15px;
+    }
+
+    .order-date{
+        font-size:13px;
+        color:gray;
+    }
+
+    .order-info{
+        margin-top:8px;
+    }
+
+    .order-info p{
+        margin:5px 0;
+        font-size:14px;
+    }
+
+    .status{
+        padding:5px 12px;
+        border-radius:20px;
+        font-size:12px;
+        font-weight:600;
+        display:inline-block;
+    }
+
+    .Pending{
+        background:#fff3cd;
+        color:#856404;
+    }
+
+    .Confirmed{
+        background:#d1ecf1;
+        color:#0c5460;
+    }
+
+    .Delivered{
+        background:#d4edda;
+        color:#155724;
+    }
+
+    .items-title{
+        margin-top:15px;
+        font-size:14px;
+        font-weight:600;
+    }
+
+    .items-list{
+        list-style:none;
+        padding:0;
+        margin-top:8px;
+    }
+
+    .items-list li{
+        padding:6px 0;
+        border-bottom:1px solid #f1f1f1;
+        font-size:14px;
+    }
+
+    .items-list li:last-child{
+        border-bottom:none;
+    }
+
+    .empty-state{
+        background:white;
+        padding:40px;
+        text-align:center;
+        border-radius:12px;
+        box-shadow:0 6px 18px rgba(0,0,0,0.07);
+    }
+
+</style>
+
+<div class="orders-wrapper">
+
+    <div class="page-title">📦 My Orders</div>
+
+    {% for order in orders %}
+        <div class="order-card">
+
+            <div class="order-top">
+                <div class="order-id">
+                    Order #{{ order.id }}
+                </div>
+                <div class="order-date">
+                    {{ order.created_at }}
+                </div>
+            </div>
+
+            <div class="order-info">
+                <p><strong>Total:</strong> ₹ {{ order.total_price }}</p>
+                <p>
+                    <strong>Status:</strong>
+                    <span class="status {{ order.status }}">
+                        {{ order.status }}
+                    </span>
+                </p>
+            </div>
+
+            <div class="items-title">Items</div>
+            <ul class="items-list">
+                {% for item in order.items.all %}
+                    <li>
+                        {{ item.product.name }} (x{{ item.quantity }})
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+
+    {% empty %}
+        <div class="empty-state">
+            <h3>No orders yet 😔</h3>
+            <p>Start shopping to see your orders here.</p>
+        </div>
+    {% endfor %}
+
+</div>
+
+{% include 'includes/footer.html' %}

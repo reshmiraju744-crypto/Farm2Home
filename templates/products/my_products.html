@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Products</title>
+
+    <style>
+
+        body{
+            font-family:'Segoe UI', sans-serif;
+            background:#f5f7f9;
+            margin:0;
+            padding:30px;
+        }
+
+        h2{
+            text-align:center;
+            margin-bottom:30px;
+            color:#333;
+        }
+
+     .product-container{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 products per row */
+    gap:20px;
+}
+@media (max-width: 992px){
+    .product-container{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px){
+    .product-container{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+        .product-card{
+           background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    text-align: center;
+    min-height: 400px;   /* 🔥 Increased height (double size feel) */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: 0.3s;
+        }
+
+        .product-card:hover{
+            transform:translateY(-5px);
+        }
+
+        .product-card img{
+           width: 100%;
+    height: 300px;   /* 🔥 Bigger image */
+     object-fit: contain;   /* 🔥 Show full image */
+    background-color: #f8f9fa; /* Optional – nice background */
+    border-radius: 8px;
+        }
+
+        .product-card h4{
+            margin:10px 0 5px;
+            font-size:16px;
+            color:#2c3e50;
+        }
+
+        .price{
+            font-weight:bold;
+            color:#27ae60;
+            margin-bottom:5px;
+            font-size:14px;
+        }
+
+        .stock{
+            color:#555;
+            margin-bottom:12px;
+        }
+
+        .btn{
+            display:inline-block;
+            padding:6px 12px;
+            border-radius:6px;
+            text-decoration:none;
+            font-size:14px;
+            margin:5px 3px;
+            transition:0.3s;
+        }
+
+        .edit-btn{
+            background:#3498db;
+            color:white;
+        }
+
+        .edit-btn:hover{
+            background:#2980b9;
+        }
+
+        .delete-btn{
+            background:#e74c3c;
+            color:white;
+        }
+
+        .delete-btn:hover{
+            background:#c0392b;
+        }
+
+        .empty-state{
+            text-align:center;
+            background:white;
+            padding:40px;
+            border-radius:12px;
+            box-shadow:0 5px 15px rgba(0,0,0,0.08);
+            grid-column:1/-1;
+        }
+
+    </style>
+</head>
+<body>
+
+<h2>🛍 My Products</h2>
+
+<div class="product-container">
+    {% for product in products %}
+        <div class="product-card">
+
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% endif %}
+
+            <h4>{{ product.name }}</h4>
+
+            <p class="price">₹ {{ product.price }}</p>
+            <p class="stock">Stock: {{ product.stock }}</p>
+
+            <a href="{% url 'edit_product' product.pk %}" class="btn edit-btn">
+                ✏ Edit
+            </a>
+
+            <a href="{% url 'delete_product' product.pk %}" class="btn delete-btn">
+                🗑 Delete
+            </a>
+
+        </div>
+
+    {% empty %}
+        <div class="empty-state">
+            <h3>No products added yet 😔</h3>
+            <p>Click "Add Product" to start selling.</p>
+        </div>
+    {% endfor %}
+</div>
+{% include 'includes/footer.html' %}
+
+</body>
+</html>

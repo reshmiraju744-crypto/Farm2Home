@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Farmers | FarmToHome</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f7f9;
+            margin: 0;
+            color: #333;
+        }
+
+        .navbar {
+background: #6B8E23;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 40px;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar .logo { font-size: 22px; font-weight: bold; }
+        .navbar .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; }
+        .navbar .nav-links a:hover { text-decoration: underline; }
+
+        .farmers-section {
+            width: 90%;
+            max-width: 1200px;
+            margin: 60px auto;
+            text-align: center;
+        }
+
+        .farmers-section h2 {
+            font-size: 36px;
+            color: #4b6f1c;
+            margin-bottom: 40px;
+        }
+
+        .farmers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .farmer-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .farmer-card h3 { color: #4b6f1c; margin-bottom: 8px; }
+        .farmer-card p { font-size: 16px; color: #555; margin: 5px 0; }
+
+        .farmer-card:hover { transform: scale(1.05); }
+
+        @media (max-width: 992px) {
+            .farmers-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .farmers-grid { grid-template-columns: 1fr; }
+        }
+
+        .footer {
+            background: linear-gradient(to right, #4caf50, #2e7d32);
+            color: #fff;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo">FarmToHome 🌾</div>
+    <div class="nav-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'contact' %}">Contact Farmers</a>
+    </div>
+</div>
+
+<div class="farmers-section">
+    <h2>Contact Our Farmers</h2>
+    <div class="farmers-grid">
+        {% for farmer in farmers %}
+        <div class="farmer-card">
+            <h3>{{ farmer.farm_name }}</h3>
+            <p>👤 {{ farmer.user.username }}</p>
+            <p>Type: {{ farmer.farmer_type }}</p>
+            <p>Experience: {{ farmer.years_experience }} years</p>
+            <p>📍 {{ farmer.farm_address }}, {{ farmer.village }}, {{ farmer.district }}</p>
+        </div>
+        {% empty %}
+            <p>No farmers available at the moment.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% include 'includes/footer.html' %}
+
+</body>
+</html>

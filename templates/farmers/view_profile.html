@@ -1,0 +1,106 @@
+_
+<style>
+.profile-card{
+    width:60%;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.profile-card h2{
+    margin-bottom:20px;
+}
+
+.profile-row{
+    margin-bottom:12px;
+}
+
+.label{
+    font-weight:600;
+    color:#555;
+}
+
+.value{
+    margin-left:10px;
+}
+
+.status{
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+    color:white;
+}
+
+.Pending{ background:#ffc107; color:black; }
+.Approved{ background:#28a745; }
+.Rejected{ background:#e74c3c; }
+
+.edit-btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:8px 15px;
+    background:#8e44ad;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
+}
+</style>
+
+<div class="profile-card">
+
+    <h2>👤 My Profile</h2>
+
+    <div class="profile-row">
+        <span class="label">Farm Name:</span>
+        <span class="value">{{ farmer.farm_name }}</span>
+    </div>
+
+    <div class="profile-row">
+        <span class="label">Farmer Type:</span>
+        <span class="value">{{ farmer.farmer_type }}</span>
+    </div>
+
+    <div class="profile-row">
+        <span class="label">Experience:</span>
+        <span class="value">{{ farmer.years_experience }} Years</span>
+    </div>
+
+    <div class="profile-row">
+        <span class="label">Address:</span>
+        <span class="value">{{ farmer.farm_address }}</span>
+    </div>
+
+    <div class="profile-row">
+        <span class="label">Village:</span>
+        <span class="value">{{ farmer.village }}</span>
+    </div>
+
+    <div class="profile-row">
+        <span class="label">District:</span>
+        <span class="value">{{ farmer.district }}</span>
+    </div>
+
+    <div class="profile-row">
+        <span class="label">Approval Status:</span>
+        <span class="status {{ farmer.approval_status }}">
+            {{ farmer.approval_status }}
+        </span>
+    </div>
+
+    <a href="{% url 'edit_farmer_profile' %}" class="edit-btn">
+        ✏️ Edit Profile
+    </a>
+    <a href="{% url 'delete_farmer_profile' %}"
+   style="display:inline-block;
+          margin-left:15px;
+          padding:8px 15px;
+          background:#e74c3c;
+          color:white;
+          text-decoration:none;
+          border-radius:6px;">
+    🗑 Delete Profile
+</a>
+</div>

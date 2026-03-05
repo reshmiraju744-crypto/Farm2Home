@@ -1,0 +1,133 @@
+
+
+<style>
+.cart-container {
+    width: 85%;
+    margin: 40px auto;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.cart-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cart-left img {
+    width: 100px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.cart-details h4 {
+    margin: 0;
+}
+
+.cart-details p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.quantity-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.qty-btn {
+    padding: 5px 10px;
+    background: #ddd;
+    text-decoration: none;
+    color: black;
+    border-radius: 5px;
+}
+
+.remove-btn {
+    padding: 6px 12px;
+    background: #e63946;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.total-section {
+    text-align: right;
+    margin-top: 30px;
+}
+
+.checkout-btn {
+    padding: 10px 20px;
+    background: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    display: inline-block;
+    margin-top: 10px;
+}
+</style>
+
+<h2 style="text-align:center;">🛒 Your Cart</h2>
+
+{% if items %}
+<div class="cart-container">
+
+    {% for item in items %}
+    <div class="cart-item">
+
+        <div class="cart-left">
+
+            {% if item.product.image %}
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+            {% else %}
+                <img src="https://via.placeholder.com/100x90?text=No+Image">
+            {% endif %}
+
+            <div class="cart-details">
+                <h4>{{ item.product.name }}</h4>
+                <p>Price: ₹ {{ item.product.price }}</p>
+                <p>Subtotal: ₹ {{ item.subtotal }}</p>            </div>
+        </div>
+
+        <div>
+
+            <div class="quantity-box">
+                <a href="{% url 'decrease_quantity' item.pk %}" class="qty-btn">-</a>
+                <span>{{ item.quantity }}</span>
+                <a href="{% url 'add_to_cart' item.product.pk %}" class="qty-btn">+</a>
+            </div>
+
+            <br>
+
+            <a href="{% url 'remove_from_cart' item.pk %}" class="remove-btn">
+                Remove
+            </a>
+
+        </div>
+
+    </div>
+    {% endfor %}
+
+    <div class="total-section">
+        <h3>Total: ₹ {{ total }}</h3>
+        <a href="{% url 'checkout' %}" class="checkout-btn">
+            Proceed to Checkout
+        </a>
+    </div>
+
+</div>
+
+{% else %}
+<p style="text-align:center;">Your cart is empty.</p>
+{% endif %}
+{% include 'includes/footer.html' %}

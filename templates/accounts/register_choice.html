@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register | FarmToHome</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #2e7d32, #66bb6a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 400px;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            color: #2e7d32;
+            font-size: 28px;
+        }
+
+        .role-card {
+            display: block;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .customer-btn {
+            background: #4caf50;
+            color: white;
+        }
+
+        .customer-btn:hover {
+            background: #388e3c;
+            transform: translateY(-3px);
+        }
+
+        .farmer-btn {
+            background: #ff9800;
+            color: white;
+        }
+
+        .farmer-btn:hover {
+            background: #f57c00;
+            transform: translateY(-3px);
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: gray;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Join FarmToHome 🌾</h2>
+
+    <a href="{% url 'customer_register' %}" class="role-card customer-btn">
+        🛒 Register as Customer
+    </a>
+
+    <a href="{% url 'farmer_register' %}" class="role-card farmer-btn">
+        👩‍🌾 Register as Seller
+    </a>
+   <p style="margin-top:20px; font-size:14px;">
+    Already have an account?
+    <a href="{% url 'user_login' %}" style="color:#2e7d32; font-weight:600; text-decoration:none;">
+        Login here
+    </a>
+</p>
+    <a href="{% url 'home' %}" class="back-link">← Back to Home</a>
+</div>
+
+</body>
+</html>

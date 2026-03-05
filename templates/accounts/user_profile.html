@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Profile - FarmToHome</title>
+
+    <style>
+        body{
+            margin:0;
+            font-family:'Segoe UI', sans-serif;
+            background:#f5f7f9;
+        }
+
+        /* Navbar */
+        .navbar{
+            background: #6B8E23;
+            padding:12px 40px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            color:white;
+        }
+
+        .logo{
+            font-size:22px;
+            font-weight:bold;
+            text-decoration:none;
+            color:white;
+        }
+
+        .navbar a{
+            color:white;
+            text-decoration:none;
+            margin-left:20px;
+        }
+
+        /* Profile Section */
+        .profile-container{
+            width:60%;
+            margin:50px auto;
+            background:white;
+            padding:40px;
+            border-radius:15px;
+            box-shadow:0 6px 20px rgba(0,0,0,0.1);
+        }
+
+        .profile-header{
+            text-align:center;
+            margin-bottom:30px;
+        }
+
+        .profile-header img{
+            width:120px;
+            height:120px;
+            border-radius:50%;
+            object-fit:cover;
+            margin-bottom:15px;
+            border:4px solid #a4d400;
+        }
+
+        .profile-header h2{
+            margin:5px 0;
+        }
+
+        .profile-details{
+            margin-top:30px;
+        }
+
+        .detail-row{
+            display:flex;
+            justify-content:space-between;
+            padding:12px 0;
+            border-bottom:1px solid #eee;
+        }
+
+        .detail-row span{
+            font-weight:600;
+            color:#555;
+        }
+
+        /* Buttons */
+        .profile-actions{
+            margin-top:30px;
+            text-align:center;
+        }
+
+        .profile-actions a{
+            display:inline-block;
+            margin:10px;
+            padding:10px 20px;
+            background:#28a745;
+            color:white;
+            text-decoration:none;
+            border-radius:8px;
+            transition:0.3s;
+        }
+
+        .profile-actions a:hover{
+            background:#218838;
+        }
+
+        @media(max-width:768px){
+            .profile-container{
+                width:90%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <a href="{% url 'product_list' %}" class="logo">🌿 FarmToHome</a>
+
+    <div>
+        <a href="{% url 'product_list' %}">Home</a>
+        <a href="{% url 'view_cart' %}">Cart</a>
+        <a href="{% url 'wishlist' %}">Wishlist</a>
+        <a href="{% url 'user_logout' %}">Logout</a>
+    </div>
+</div>
+
+<!-- Profile Section -->
+<div class="profile-container">
+
+    <div class="profile-header">
+        <h2>{{ user.username }}</h2>
+        <p>{{ user.email }}</p>
+    </div>
+
+    <div class="profile-details">
+
+        <div class="detail-row">
+            <span>Full Name</span>
+            <div>{{ user.first_name }} {{ user.last_name }}</div>
+        </div>
+
+        <div class="detail-row">
+            <span>Email</span>
+            <div>{{ user.email }}</div>
+        </div>
+
+        <div class="detail-row">
+            <span>Phone</span>
+            <div>{{ profile.phone }}</div>
+        </div>
+
+        <div class="detail-row">
+            <span>Address</span>
+            <div>{{ profile.address }}</div>
+        </div>
+
+    </div>
+
+    <div class="profile-actions">
+        <a href="{% url 'edit_user' %}">✏ Edit Profile</a>
+        <a href="{% url 'order_history' %}">📦 My Orders</a>
+        <a href="{% url 'wishlist' %}">❤️ My Wishlist</a>
+    </div>
+
+</div>
+
+{% include 'includes/footer.html' %}
+
+</body>
+</html>

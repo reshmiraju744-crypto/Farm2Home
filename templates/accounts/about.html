@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About Us | FarmToHome</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f5f7f9;
+            margin: 0;
+            color: #333;
+        }
+
+        /* Navbar (reuse your navbar styles) */
+        .navbar {
+            background: #6B8E23;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 40px;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .navbar .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+        }
+
+        .navbar .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url("{% static 'images/farm-hero.jpg' %}") no-repeat center center/cover;
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin: 0;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        /* About Section */
+        .about-section {
+            width: 90%;
+            max-width: 1000px;
+            margin: 60px auto;
+            text-align: center;
+        }
+
+        .about-section h2 {
+            font-size: 36px;
+            color: #4b6f1c;
+            margin-bottom: 20px;
+        }
+
+        .about-section p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        /* Mission/Vision Section */
+        .mission-vision {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 60px 0;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            flex: 1 1 300px;
+            text-align: center;
+        }
+
+        .card h3 {
+            color: #4b6f1c;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Footer (reuse your footer style) */
+        .footer {
+            background: linear-gradient(to right, #4caf50, #2e7d32);
+            color: #fff;
+            text-align: center;
+            padding: 30px 20px;
+            font-family: 'Segoe UI', sans-serif;
+            box-shadow: 0 -3px 10px rgba(0,0,0,0.2);
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 36px; }
+            .hero p { font-size: 16px; }
+            .mission-vision {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar (reuse from base) -->
+<div class="navbar">
+    <div class="logo">FarmToHome 🌾</div>
+    <div class="nav-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'product_list' %}">Products</a>
+        <a href="{% url 'contact' %}">Contact</a>
+    </div>
+</div>
+
+<!-- Hero Section -->
+<div class="hero">
+    <div class="hero-content">
+        <h1>About FarmToHome</h1>
+        <p>Bringing fresh, organic produce directly from farmers to your home.</p>
+    </div>
+</div>
+
+<!-- About Section -->
+<div class="about-section">
+    <h2>Who We Are</h2>
+    <p>FarmToHome is dedicated to connecting local farmers with customers who value fresh, organic, and high-quality produce. Our platform ensures that every product you receive is sourced directly from trusted farms, maintaining the highest standards of quality and sustainability.</p>
+</div>
+
+<!-- Mission & Vision -->
+<div class="mission-vision">
+    <div class="card">
+        <h3>Our Mission</h3>
+        <p>To empower farmers and provide customers with fresh, organic products while promoting sustainable agriculture practices.</p>
+    </div>
+    <div class="card">
+        <h3>Our Vision</h3>
+        <p>To become the leading platform for farm-to-home delivery, making healthy living accessible and convenient for everyone.</p>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    © 2026 FarmToHome | Connecting Farmers & Customers 🌾
+</div>
+
+</body>
+</html>
