@@ -32,3 +32,33 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.product.name} ({self.quantity})"
+
+
+class Address(models.Model):
+    ADDRESS_TYPES = [
+        ('Home', 'Home'),
+        ('Work', 'Work'),
+        ('Farm', 'Farm'),
+        ('Parents', 'Parents'),
+        ('Other', 'Other'),
+    ]
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+
+    label = models.CharField(
+        max_length=20,
+        choices=ADDRESS_TYPES,
+        default='Home'
+    )
+
+    full_name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=15)
+    address = models.TextField()
+    city = models.CharField(max_length=100)
+    pincode = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f"{self.label} - {self.full_name}"

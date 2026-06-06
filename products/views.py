@@ -1,12 +1,14 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from wishlist.models import Wishlist
-from .models import Product
-from .forms import ProductForm
+from .models import Product,Review
+from .forms import ProductForm,ReviewForm
 from farmers.models import FarmerProfile
 from django.shortcuts import get_object_or_404
 
+from orders.models import OrderItem
 
 from django.db.models import Q
 from .models import Product, Category
@@ -44,7 +46,12 @@ def add_product(request):
         return redirect('product_list')
 
     if farmer_profile.approval_status != "Approved":
-        return redirect('product_list')
+        messages.warning(
+            request,
+            "⏳ Your seller account is waiting for admin approval."
+        )
+
+        return redirect('farmer_dashboard')
 
     if request.method == "POST":
         form = ProductForm(request.POST, request.FILES)
@@ -122,4 +129,54 @@ def category_products(request, category_id):
     return render(request, "products/category_products.html", {
         "category": category,
         "products": products
+    })
+
+
+
+@login_required
+def add_review(request, product_id):
+
+    product = get_object_or_404(Product, id=product_id)
+
+    # Check delivered purchase
+    purchased = OrderItem.objects.filter(
+        order__user=request.user,
+        order__status='Delivered',
+        product=product
+    ).exists()
+
+    if not purchased:
+        return redirect('product_detail', pk=product.id)
+
+    # Prevent duplicate review
+    already_reviewed = Review.objects.filter(
+        product=product,
+        user=request.user
+    ).exists()
+
+    if already_reviewed:
+        return redirect('product_detail', pk=product.id)
+
+    if request.method == 'POST':
+
+        form = ReviewForm(request.POST)
+
+        if form.is_valid():
+
+            review = form.save(commit=False)
+
+            review.product = product
+            review.user = request.user
+
+            review.save()
+
+            return redirect('order_history')
+
+    else:
+
+        form = ReviewForm()
+
+    return render(request, 'products/add_review.html', {
+        'form': form,
+        'product': product
     })

@@ -27,25 +27,24 @@
             box-shadow:0 8px 20px rgba(0,0,0,0.08);
         }
 
-        form p{
-            margin-bottom:15px;
+        .address-box{
+            background:#f9f9f9;
+            padding:15px;
+            border-radius:8px;
+            margin-bottom:20px;
+            line-height:1.8;
         }
 
-        form input,
-        form textarea,
-        form select{
-            width:100%;
-            padding:10px;
-            border:1px solid #ccc;
-            border-radius:6px;
-            font-size:14px;
+        .change-address{
+            display:inline-block;
+            margin-bottom:20px;
+            color:#27ae60;
+            text-decoration:none;
+            font-weight:600;
         }
 
-        form input:focus,
-        form textarea:focus,
-        form select:focus{
-            outline:none;
-            border-color:#27ae60;
+        .change-address:hover{
+            text-decoration:underline;
         }
 
         .submit-btn{
@@ -57,7 +56,6 @@
             border-radius:8px;
             font-size:16px;
             cursor:pointer;
-            margin-top:15px;
             transition:0.3s;
         }
 
@@ -82,23 +80,61 @@
 </head>
 
 <body>
+<form method="POST">
+    {% csrf_token %}
 
-<h2>🚚 Delivery Details</h2>
+    <h3>Select Delivery Address</h3>
 
-<div class="form-container">
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
+    {% for address in addresses %}
+    <div class="address-box">
 
-        <button type="submit" class="submit-btn">
-            🛒 Place Order
-        </button>
+        <label>
+            <input type="radio"
+                   name="address_id"
+                   value="{{ address.id }}"
+                   {% if address.is_default %}checked{% endif %}>
 
-        <div class="security-text">
-            🔒 Your information is secure and protected.
-        </div>
-    </form>
-</div>
+            <strong>{{ address.label }}</strong><br>
+
+{{ address.full_name }}<br>
+{{ address.phone }}<br>
+{{ address.address }}<br>
+{{ address.city }} - {{ address.pincode }}
+
+<br><br>
+
+<a href="{% url 'edit_address' address.id %}"
+   style="color:#27ae60;font-weight:bold;text-decoration:none;">
+    ✏️ Edit Address
+</a>
+&nbsp;|&nbsp;
+
+<a href="{% url 'delete_address' address.id %}"
+   onclick="return confirm('Delete this address?')"
+   style="color:red;text-decoration:none;font-weight:bold;">
+    🗑 Delete
+</a>
+        </label>
+
+    </div>
+    {% empty %}
+        <p>No address found.</p>
+    {% endfor %}
+
+    <a href="{% url 'save_address' %}" class="change-address">
+        ➕ Add New Address
+    </a>
+
+    <button type="submit" class="submit-btn">
+        🛒 Continue to Payment
+    </button>
+
+    <div class="security-text">
+        🔒 Your information is secure and protected.
+    </div>
+
+</form>
+
 {% include 'includes/footer.html' %}
 
 </body>

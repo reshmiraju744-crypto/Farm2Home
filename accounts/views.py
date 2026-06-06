@@ -6,7 +6,13 @@ from django.contrib import messages
 from orders.models import Order
 from products.models import Product
 from .forms import CustomerRegistrationForm, FarmerRegistrationForm
-
+from django.core.mail import send_mail
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.urls import reverse
+from .token import token_generator
+from .models import User
 # -----------------------
 # Home Page
 # -----------------------
@@ -29,13 +35,74 @@ def home(request):
 def customer_register(request):
     if request.method == 'POST':
         form = CustomerRegistrationForm(request.POST)
+
         if form.is_valid():
-            form.save()
-            messages.success(request, "Customer account created successfully! Please login.")
+
+            user = form.save()
+
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+            token = token_generator.make_token(user)
+
+            verification_link = (
+                f"http://{get_current_site(request)}"
+                + reverse(
+                    'verify_email',
+                    kwargs={
+                        'uidb64': uid,
+                        'token': token
+                    }
+                )
+            )
+
+            send_mail(
+                'Verify your email',
+                f'Click the link below to verify your email:\n\n{verification_link}',
+                'yourgmail@gmail.com',
+                [user.email],
+                fail_silently=False,
+            )
+
+            messages.success(
+                request,
+                "Account created successfully! Please check your email to verify your account."
+            )
+
             return redirect('user_login')
+
     else:
         form = CustomerRegistrationForm()
-    return render(request, 'accounts/customer_register.html', {'form': form})
+
+    return render(
+        request,
+        'accounts/customer_register.html',
+        {'form': form}
+    )
+
+def verify_email(request, uidb64, token):
+
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+
+    except:
+        user = None
+
+    if user and token_generator.check_token(user, token):
+
+        user.is_email_verified = True
+        user.save()
+
+        messages.success(
+            request,
+            "Email verified successfully. You can now login."
+        )
+
+        return redirect('user_login')
+
+    messages.error(request, "Invalid verification link.")
+
+    return redirect('user_login')
 
 # -----------------------
 # Farmer Registration
@@ -69,6 +136,12 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
+            if not user.is_email_verified:
+                messages.error(
+                    request,
+                    "Please verify your email before logging in."
+                )
+                return redirect('user_login')
             login(request, user)
             messages.success(request, f"Welcome {user.username}!")
 
@@ -78,20 +151,13 @@ def user_login(request):
 
             # Farmer
             try:
+
                 farmer = FarmerProfile.objects.get(user=user)
 
-                if farmer.approval_status == 'Approved':
-                    return redirect('farmer_orders')
-
-                elif farmer.approval_status == 'Pending':
-                    messages.error(request, "Your account is waiting for admin approval.")
-                    return redirect('user_login')
-
-                elif farmer.approval_status == 'Rejected':
-                    messages.error(request, "Your account has been rejected by admin.")
-                    return redirect('user_login')
+                return redirect('farmer_dashboard')
 
             except FarmerProfile.DoesNotExist:
+
                 pass
 
             # Customer
@@ -117,7 +183,7 @@ def user_logout(request):
 def customer_dashboard(request):
     products = Product.objects.all()
     print(products)
-    return render(request, 'accounts/customer_dashboard.html', {
+    return render(request, 'products/product_list.html', {
         'products': products
     })
 

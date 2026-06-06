@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Review | FarmToHome</title>
+
+<style>
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f5f7f9;
+    margin:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+/* REVIEW BOX */
+
+.review-container{
+    width:450px;
+    background:white;
+    padding:35px;
+    border-radius:18px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+.review-container h2{
+    text-align:center;
+    margin-bottom:30px;
+    color:#333;
+}
+
+/* FORM */
+
+form{
+    display:flex;
+    flex-direction:column;
+}
+
+label{
+    margin-bottom:8px;
+    font-weight:600;
+    color:#444;
+}
+
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    font-size:15px;
+    margin-bottom:20px;
+    outline:none;
+    transition:0.3s;
+}
+
+select:focus,
+textarea:focus{
+    border-color:#28a745;
+}
+
+textarea{
+    min-height:130px;
+    resize:none;
+}
+
+/* BUTTON */
+
+.submit-btn{
+    background:#28a745;
+    color:white;
+    border:none;
+    padding:14px;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+    font-weight:600;
+}
+
+.submit-btn:hover{
+    background:#218838;
+}
+
+/* PRODUCT NAME */
+
+.product-name{
+    text-align:center;
+    color:#777;
+    margin-top:-15px;
+    margin-bottom:25px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="review-container">
+
+    <h2>Write a Review</h2>
+
+    <div class="product-name">
+        {{ product.name }}
+    </div>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Rating</label>
+
+        <select name="rating">
+
+            <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+            <option value="4">⭐⭐⭐⭐ (4)</option>
+            <option value="3">⭐⭐⭐ (3)</option>
+            <option value="2">⭐⭐ (2)</option>
+            <option value="1">⭐ (1)</option>
+
+        </select>
+
+        <label>Your Review</label>
+
+        <textarea
+            name="review"
+            placeholder="Share your experience about this product..."
+            required
+        ></textarea>
+
+        <button type="submit" class="submit-btn">
+            Submit Review
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
+

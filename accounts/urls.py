@@ -11,5 +11,5 @@ urlpatterns = [
     path('edit-profile/', views.edit_user, name='edit_user'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
-
+    path('verify-email/<uidb64>/<token>/',views.verify_email,name='verify_email'),
 ]

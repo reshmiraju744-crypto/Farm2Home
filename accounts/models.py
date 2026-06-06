@@ -12,7 +12,7 @@ class User(AbstractUser):
     full_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=15)
     role = models.CharField(max_length=10, choices=USER_ROLES)
-
+    is_email_verified = models.BooleanField(default=False)
     def __str__(self):
         return f"{self.username} ({self.role})"
 
